@@ -1,1 +1,66 @@
-temporary
+1. Move Zeroes
+
+void moveZeroes(int* nums, int numsSize) {
+    int pos = 0;
+    for (int i=0;i<numsSize;i++) {
+        if (nums[i]!=0) {
+            int temp=nums[i];
+            nums[i]=nums[pos];
+            nums[pos]=temp;
+            pos++;
+        }
+    }
+}
+
+2. Squares of a Sorted Array
+
+int* sortedSquares(int* nums, int numsSize, int* returnSize) {
+    int* result_array = (int*)malloc(numsSize * sizeof(int));
+    int i=0;
+    int j=numsSize-1;
+    int k=numsSize-1;
+    while (i<=j) {
+        int left=nums[i]*nums[i];
+        int right=nums[j]*nums[j];
+        if (left>right) {
+            result_array[k]=left;
+            i++;
+        } else {
+            result_array[k]=right;
+            j--;
+        }
+        k--;
+    }
+    *returnSize = numsSize;
+    return result_array;
+}
+
+
+3. Container With Most Water 
+
+int maxArea(int* height, int heightSize) {
+    int left=0;
+    int right=heightSize - 1;
+    int answer=0;
+    while (left<right) {
+        int width=right-left;
+        int h;
+        if (height[left]<height[right]) {
+            h=height[left];
+        } 
+        else {
+            h=height[right];
+        }
+        int area=width*h;
+        if (area>answer) {
+            answer=area;
+        }
+        if (height[left]<height[right]) {
+            left++;
+        }
+        else {
+            right--;
+        }
+    }
+    return answer;
+}
