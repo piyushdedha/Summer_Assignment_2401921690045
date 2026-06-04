@@ -1,1 +1,59 @@
-temporary file
+1. matrix diagonal sum 
+
+class Solution:
+    def diagonalSum(self, mat):
+        n = len(mat)
+        total = 0
+
+        for i in range(n):
+            total += mat[i][i]
+
+        for i in range(n):
+            if i != n - i - 1:
+                total += mat[i][n - i - 1]
+
+        return total
+
+2. reshape the matrix
+
+   class Solution:
+    def matrixReshape(self, mat, r, c):
+        m = len(mat)
+        n = len(mat[0])
+
+        if m * n != r * c:
+            return mat
+
+        ans = [[0] * c for _ in range(r)]
+
+        for i in range(m * n):
+            ans[i // c][i % c] = mat[i // n][i % n]
+
+        return ans
+
+
+3. spiral matrix
+
+int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize, int* returnSize) {
+    int rows=matrixSize;
+    int cols=matrixColSize[0];
+    int* ans=malloc(rows*cols*sizeof(int));
+    int top=0; int bottom=rows-1; int left=0;
+    int right=cols-1; int index=0;
+    while (top<=bottom && left <= right) {
+        for (int i = left; i <= right; i++)
+            ans[index++] = matrix[top][i];
+        top++;
+        for (int i = top; i <= bottom; i++)
+            ans[index++] = matrix[i][right];
+        right--;
+        for (int i = right; i >= left && top <= bottom; i--)
+            ans[index++] = matrix[bottom][i];
+        bottom--;
+        for (int i = bottom; i >= top && left <= right; i--)
+            ans[index++] = matrix[i][left];
+        left++;
+    }
+    *returnSize = index;
+    return ans;
+}
