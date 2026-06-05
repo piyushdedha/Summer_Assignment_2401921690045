@@ -1,1 +1,55 @@
-temporary file
+1. valid palindrome
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int left = 0, right = s.size() - 1;
+        while(left < right){
+            if(!isalnum(s[left])){
+                left++;
+            }
+            else if(!isalnum(s[right])){
+                right--;
+            }
+            else if(tolower(s[left]) != tolower(s[right])){
+                return false;
+            }else{
+                left++;
+                right--;
+            }
+        }
+        return true;
+    }
+};
+
+2. reverse string 
+void reverseString(char* s, int sSize) {
+    int left = 0;
+    int right = sSize - 1;
+    char temp;
+    while (left<right) {
+        temp=s[left];
+        s[left]=s[right];
+        s[right]=temp;
+        left++;
+        right--;
+    }
+}
+
+   
+3. longest common prefix
+
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        string res="";
+        for(int i=0;i<strs[0].size();i++){
+            for(auto s:strs){
+                if(s[i]!=strs[0][i]){
+                    return res;
+                }
+            }
+            res+=strs[0][i];
+        }
+        return res;
+    }
+};
