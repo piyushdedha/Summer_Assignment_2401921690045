@@ -1,1 +1,52 @@
-temporary file
+1. Implement strStr() 
+
+int strStr(char* haystack, char* needle) {
+    int len1=strlen(haystack);
+    int len2=strlen(needle);
+    for (int start=0;start<=len1-len2;start++) {
+        int k=0;
+        while(k<len2&&haystack[start+k]==needle[k]) {
+            k++;
+        }
+        if(k==len2){
+            return start;
+        }
+    }
+    return -1;
+}
+
+2. Is Subsequence 
+
+bool isSubsequence(char* s, char* t) {
+    int i=0;
+    int j=0;
+    while(s[i]!='\0'&&t[j]!='\0') {
+        if(s[i]==t[j]) {
+            i++;
+        }
+        j++;
+    }
+    return s[i]=='\0';
+}
+
+3. Repeated Substring Pattern 
+
+bool repeatedSubstringPattern(char* s) {
+    int n=strlen(s);
+    for (int len=1;len<=n/2;len++) {
+        if(n%len!=0) {
+            continue;
+        }
+        bool same=true;
+        for (int i=len;i<n;i++) {
+            if (s[i]!=s[i%len]) {
+                same = false;
+                break;
+            }
+        }
+        if(same) {
+            return true;
+        }
+    }
+    return false;
+}
