@@ -1,1 +1,74 @@
-temporary file
+1. Reverse Words in a String III :-
+
+class Solution(object):
+    def reverseWords(self, s):
+        arr=s.split()
+        for i in range(len(arr)):
+            arr[i]=arr[i][::-1]
+        return " ".join(arr)
+
+
+2. Decode String :-
+
+char* decodeString(char* s) {
+    char* strStack[100];
+    int numStack[100];
+    int top=-1;
+    char* curr=(char*)calloc(100000, sizeof(char));
+    int num=0;
+    for (int i=0;s[i];i++) {
+        if (isdigit(s[i])) {
+            num=num*10+(s[i]-'0');
+        }
+        else if (s[i]=='[') {
+            top++;
+            numStack[top]=num;
+            strStack[top]=curr;
+            curr=(char*)calloc(100000, sizeof(char));
+            num=0;
+        }
+        else if (s[i]==']') {
+            int repeat=numStack[top];
+            char* prev=strStack[top];
+            top--;
+            int len=strlen(prev);
+            for (int j=0;j<repeat;j++) {
+                strcat(prev,curr);
+            }
+            free(curr);
+            curr=prev;
+        }
+        else {
+            int len=strlen(curr);
+            curr[len]=s[i];
+            curr[len+1]='\0';
+        }
+    }
+    return curr;
+}
+
+3. Generate Parentheses :-
+
+void solve(char *s, int pos, int open, int close,int n,char **ans,int*count){
+    if (pos==2*n) {
+        s[pos]='\0';
+        ans[*count]=strdup(s);
+        (*count)++;
+        return;
+    }
+    if(open<n){
+        s[pos]='(';
+        solve(s,pos+1,open+1,close,n,ans,count);
+    }
+    if(close<open) {
+        s[pos]=')';
+        solve(s,pos+1,open,close+1,n,ans,count);
+    }
+}
+char** generateParenthesis(int n,int*returnSize) {
+    char **ans=malloc(1500*sizeof(char*));
+    char s[20];
+    *returnSize=0;
+    solve(s,0,0,0,n,ans,returnSize);
+    return ans;
+}
