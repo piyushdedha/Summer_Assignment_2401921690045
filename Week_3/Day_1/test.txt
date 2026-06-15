@@ -1,1 +1,43 @@
+1. Linked List Cycle :-
 
+bool hasCycle(struct ListNode *head) {
+    struct ListNode *slow=head;
+    struct ListNode *fast=head;
+    while (fast!=NULL&&fast->next!=NULL){
+        slow=slow->next;
+        fast=fast->next->next;
+        if (slow==fast) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+2. Reverse Linked List :-
+
+struct ListNode* reverseList(struct ListNode* head) {
+    struct ListNode *prev=NULL;
+    struct ListNode*curr=head;
+    struct ListNode*nextNode=NULL;
+    while (curr!=NULL){
+        nextNode=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=nextNode;
+    }
+    return prev;
+}
+
+
+3. Middle of the Linked List :-
+
+struct ListNode* middleNode(struct ListNode* head) {
+    struct ListNode *slow=head;
+    struct ListNode *fast=head;
+    while(fast!=NULL && fast->next!=NULL){
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    return slow;
+}
