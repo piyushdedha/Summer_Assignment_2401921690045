@@ -2,17 +2,22 @@
 
 int* dailyTemperatures(int* temperatures, int temperaturesSize, int* returnSize) {
     *returnSize = temperaturesSize;
-    int* result = (int*)malloc(temperaturesSize * sizeof(int));
-    for (int i=0; i<temperaturesSize;i++) {
-        result[i]=0;
-        for (int j=i+1;j<temperaturesSize;j++) {
-            if (temperatures[j]>temperatures[i]) {
-                result[i]=j-i;
-                break;
-            }
+
+    int* ans = (int*)calloc(temperaturesSize, sizeof(int));
+    int* stack = (int*)malloc(temperaturesSize * sizeof(int));
+    int top = -1;
+
+    for (int i = 0; i < temperaturesSize; i++) {
+        while (top >= 0 && temperatures[i] > temperatures[stack[top]]) {
+            int idx = stack[top--];
+            ans[idx] = i - idx;
         }
+
+        stack[++top] = i;
     }
-    return result;
+
+    free(stack);
+    return ans;
 }
 
 
