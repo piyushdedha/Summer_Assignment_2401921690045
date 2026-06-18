@@ -18,21 +18,43 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize, int* returnSize)
 
 2. Evaluate Reverse Polish Notation :-
 
-int* dailyTemperatures(int* temperatures, int temperaturesSize, int* returnSize) {
-    *returnSize = temperaturesSize;
+#include <stdlib.h>
+#include <string.h>
 
-    int* result = (int*)calloc(temperaturesSize, sizeof(int));
-    int* stack = (int*)malloc(temperaturesSize * sizeof(int));
-    int top=-1;
-    for (int i=0;i<temperaturesSize;i++){
-        while (top>=0 && temperatures[i]>temperatures[stack[top]]) {
-            int prevDay=stack[top--];
-            result[prevDay]=i-prevDay;
+int evalRPN(char** tokens, int tokensSize) {
+    int* stack = (int*)malloc(tokensSize * sizeof(int));
+    int top = -1;
+
+    for (int i = 0; i < tokensSize; i++) {
+
+        if (strcmp(tokens[i], "+") == 0) {
+            int b = stack[top--];
+            int a = stack[top--];
+            stack[++top] = a + b;
         }
-        stack[++top]=i;
+        else if (strcmp(tokens[i], "-") == 0) {
+            int b = stack[top--];
+            int a = stack[top--];
+            stack[++top] = a - b;
+        }
+        else if (strcmp(tokens[i], "*") == 0) {
+            int b = stack[top--];
+            int a = stack[top--];
+            stack[++top] = a * b;
+        }
+        else if (strcmp(tokens[i], "/") == 0) {
+            int b = stack[top--];
+            int a = stack[top--];
+            stack[++top] = a / b;
+        }
+        else {
+            stack[++top] = atoi(tokens[i]);
+        }
     }
+
+    int ans = stack[top];
     free(stack);
-    return result;
+    return ans;
 }
 
 
