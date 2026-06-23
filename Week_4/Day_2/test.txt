@@ -1,1 +1,89 @@
-temporary file
+1. Binary Tree Inorder Traversal :-
+
+void inorder(struct TreeNode* root, int* result, int* index) {
+    if(root==NULL){
+        return;
+    }
+    inorder(root->left, result, index);
+    result[*index]=root->val;
+    (*index)++;
+    inorder(root->right, result, index);
+}
+int* inorderTraversal(struct TreeNode* root, int* returnSize) {
+    int* result=(int*)malloc(100*sizeof(int));
+    int index=0;
+    inorder(root, result, &index);
+    *returnSize=index;
+    return result;
+}
+
+2. Binary Tree Level Order Traversal :-
+
+int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes) {
+    *returnSize = 0;
+
+    if (root == NULL) {
+        *returnColumnSizes = NULL;
+        return NULL;
+    }
+    int** result = (int**)malloc(2000 * sizeof(int*));
+    *returnColumnSizes = (int*)malloc(2000 * sizeof(int));
+    struct TreeNode* queue[2000];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+    
+    while (front < rear) {
+        int size = rear - front;
+
+        result[*returnSize] = (int*)malloc(size * sizeof(int));
+        (*returnColumnSizes)[*returnSize] = size;
+        for (int i = 0; i < size; i++) {
+            struct TreeNode* node = queue[front++];
+            result[*returnSize][i] = node->val;
+            if (node->left) {
+                queue[rear++] = node->left;
+            }
+            if (node->right) {
+                queue[rear++] = node->right;
+            }
+        }
+        (*returnSize)++;
+    }
+    return result;
+}
+
+3. Binary Tree Zigzag Level Order Traversal :-
+
+int** zigzagLevelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes) {
+    *returnSize = 0;
+
+    if(root==NULL){
+        *returnColumnSizes = NULL;
+        return NULL;
+    }
+
+    int** ans = malloc(5000 * sizeof(int*));
+    *returnColumnSizes = malloc(5000 * sizeof(int));
+    struct TreeNode* q[5000];
+    int front=0,rear=0;
+    int leftToRight=1;
+    q[rear++]=root;
+    while(front<rear){
+        int count=rear-front;
+        ans[*returnSize] = malloc(count * sizeof(int));
+        (*returnColumnSizes)[*returnSize] = count;
+
+        for(int i=0;i<count;i++) {
+            struct TreeNode*curr=q[front++];
+            int pos = leftToRight?i:count-1-i;
+            ans[*returnSize][pos]=curr->val;
+            if(curr->left)
+                q[rear++] = curr->left;
+            if (curr->right)
+                q[rear++] = curr->right;
+        }
+        leftToRight = !leftToRight;
+        (*returnSize)++;
+    }
+    return ans;
+}
